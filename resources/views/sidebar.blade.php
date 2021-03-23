@@ -50,7 +50,15 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-list"></i>
               <p>
-                Simple Link                
+                Daftar Barang                
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('keluar') }}" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+                Keluar                
               </p>
             </a>
           </li>
