@@ -56,9 +56,14 @@
 		            </div>
 		            <div class="form-group mb-3">
 		            	<label class="label" for="password">Email</label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="email" required autocomplete="email">
+                        <input id="email" type="email" class="form-control" name="email" placeholder="email" >
 
-                                @error('email')
+		            </div>
+		            <div class="form-group mb-3">
+		            	<label class="label" for="password">No. HP atau telepon</label>
+                        <input id="hp" type="text" class="form-control @error('hp') is-invalid @enderror" name="hp" value="{{ old('hp') }}" placeholder="No. HP atau telepon" required autocomplete="hp">
+
+                                @error('hp')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
