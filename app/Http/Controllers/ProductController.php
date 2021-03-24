@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {        
         Product::updateOrCreate(
-            ['id' => $request->id],
+            ['id' => $request->product_id],
             [
                 'name' => $request->name,
                 'capital_price' => $request->capital_price,
