@@ -35,10 +35,10 @@
                       <form method="POST" action="{{ route('login') }}">
                           @csrf
 			      		<div class="form-group mb-3">
-			      			<label class="label" for="name">Email</label>
-			      			<input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="email" autofocus>
+			      			<label class="label" for="name">Username atau Email</label>
+			      			<input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="username" required autofocus>
 
-                                @error('email')
+                                @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
