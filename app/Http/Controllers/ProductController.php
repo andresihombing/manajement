@@ -23,8 +23,8 @@ class ProductController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Beli" class="beli btn btn-success btn-sm beliProduct">Beli</a>';
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
 
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct">Delete</a>';
 
@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {        
         Product::updateOrCreate(
-            ['id' => $request->id],
+            ['id' => $request->product_id],
             [
                 'name' => $request->name,
                 'capital_price' => $request->capital_price,
@@ -54,11 +54,11 @@ class ProductController extends Controller
                 'merk' => $request->merk,
                 'unit' => $request->unit,
                 'quality' => $request->quality,
-                'stok' => $request->stok
+                'stok' => $request->stok-$request->kurang_stok
             ]
         );
 
-        return response()->json(['success' => 'Book saved successfully.']);
+        return response()->json(['success' => 'Success']);
     }
     /**
      * Show the form for editing the specified resource.
@@ -67,8 +67,10 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {        
+    {
         $product = Product::find($id);
+        $product->kurang_stok = 0;
+        // $json = json_encode($product);
         return response()->json($product);
     }
 

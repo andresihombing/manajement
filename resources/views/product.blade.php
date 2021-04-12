@@ -49,13 +49,13 @@
                         <div class="col-sm-6">
                             <label for="name" class="col-sm-12 control-label">Harga Modal</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="capital_price" name="capital_price" placeholder="masukkan modal" value="" maxlength="50" required="">
+                                <input type="number" min="0" class="form-control" id="capital_price" name="capital_price" placeholder="masukkan modal" value="" maxlength="50" required="">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <label for="name" class="col-sm-12 control-label">Harga Jual</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="selling_price" name="selling_price" placeholder="masukkan harga jual" value="" maxlength="50" required="">
+                                <input type="number" min="0" class="form-control" id="selling_price" name="selling_price" placeholder="masukkan harga jual" value="" maxlength="50" required="">
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                         <div class="form-group col-md-4">                            
                             <label for="name" class="col-sm-2 control-label">Stok</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="stok" name="stok" placeholder="stok" value="" maxlength="50" required="">
+                                <input type="number" min="0" class="form-control" id="stok" name="stok" placeholder="stok" value="" maxlength="50" required="">
                             </div>
                         </div>
                     </div>
@@ -102,6 +102,104 @@
 
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
+                            </button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ajaxModelBeli" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="float-left">
+                    <h4 class="modal-title" id="modelHeadingBeli"></h4>
+                </div>
+                <div class="float-left">
+                    <table>
+                    <tr>
+                        <td>Harga</td>
+                        <td> : </td>
+                        <td>
+                            <b id="modelHeadingPrice"></b><br>
+                        </td>
+                    </tr>    
+                    <tr>
+                        <td>Merk </td>
+                        <td> : </td>
+                        <td>
+                            <b id="modelHeadingMerk"></b>
+                        </td>
+                    </tr>    
+                    </table>                  
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="productFormBeli" name="productFormBeli" class="form-horizontal">
+                    <input type="hidden" name="product_id" id="product_id_beli">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-5 control-label">Jumlah</label>
+                        <div class="col-sm-12">
+                            <input type="number" min="0" class="form-control" id="kurang_stok" name="kurang_stok" placeholder="masukkan jumlah yang ingin dibeli" value="" maxlength="50" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="hidden" class="form-control" id="name_beli" name="name" placeholder="masukkan nama produk" value="" maxlength="50" required="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div class="col-sm-12">
+                                <input type="hidden" class="form-control" id="capital_price_beli" name="capital_price" placeholder="masukkan modal" value="" maxlength="50" required="">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="col-sm-12">
+                                <input type="hidden" class="form-control" id="selling_price_beli" name="selling_price" placeholder="masukkan harga jual" value="" maxlength="50" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <div class="col-sm-12">
+                                <input type="hidden" class="form-control" id="merk_beli" name="merk" placeholder="masukkan merek" value="" maxlength="50" required="">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="col-sm-12">
+                                <input type="hidden" class="form-control" id="stok_beli" name="stok" placeholder="stok" value="" maxlength="50" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div class="col-sm-12">
+                                <select class="custom-select" name="quality" id="quality_beli" hidden>
+                                    <option value="">Pilih Kulitas </option>
+                                    <option value="Asli">Asli</option>
+                                    <option value="Palsu">Palsu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="col-sm-12">
+                                <select class="custom-select" name="unit" id="unit_beli" hidden>
+                                    <option value="">Pilih Satuan </option>
+                                    <option value="Unit">Unit</option>
+                                    <option value="Lembar">Lembar</option>
+                                    <option value="Set">Set</option>
+                                    <option value="Liter">Liter</option>
+                                    <option value="Buah">Buah</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" id="saveBtnBeli" value="create">Beli
                             </button>
                         </div>
                 </form>
@@ -174,6 +272,7 @@
         $('body').on('click', '.editProduct', function() {
             var product_id = $(this).data('id');    
             $.get("{{ route('product.index') }}" + '/' + product_id + '/edit', function(data) {
+                console.log(data)
                 $('#modelHeading').html("Edit Product");
                 $('#saveBtn').val("edit-product");
                 $('#ajaxModel').modal('show');                
@@ -187,6 +286,24 @@
                 $('#stok').val(data.stok);
             })
         });
+        $('body').on('click', '.beliProduct', function() {
+            var product_id = $(this).data('id');
+            $.get("{{ route('product.index') }}" + '/' + product_id + '/edit', function(data) {
+                $('#modelHeadingMerk').html(data.merk);
+                $('#modelHeadingPrice').html(`Rp.${data.selling_price}`);
+                $('#modelHeadingBeli').html(data.name);
+                $('#saveBtn').val("beli-product");
+                $('#ajaxModelBeli').modal('show');                
+                $('#product_id_beli').val(data.id);
+                $('#name_beli').val(data.name);
+                $('#capital_price_beli').val(data.capital_price);
+                $('#selling_price_beli').val(data.selling_price);
+                $('#merk_beli').val(data.merk);
+                $('#unit_beli').val(data.unit);
+                $('#quality_beli').val(data.quality);
+                $('#stok_beli').val(data.stok);
+            })
+        });
         $('#saveBtn').click(function(e) {            
             e.preventDefault();            
             $(this).html('Save');
@@ -197,7 +314,7 @@
                 type: "POST",
                 dataType: 'json',
                 success: function(data) {
-
+                    
                     $('#productForm').trigger("reset");
                     $('#ajaxModel').modal('hide');
                     table.draw();
@@ -206,6 +323,29 @@
                 error: function(data) {
                     console.log('Error:', data);
                     $('#saveBtn').html('Save Changes');
+                }
+            });
+        });
+        $('#saveBtnBeli').click(function(e) {     
+            console.log(e.preventDefault())       
+            e.preventDefault();            
+            $(this).html('Beli');
+
+            $.ajax({
+                data: $('#productFormBeli').serialize(),
+                url: "{{ route('product.store') }}",
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data)
+                    $('#productFormBeli').trigger("reset");
+                    $('#ajaxModelBeli').modal('hide');
+                    table.draw();
+
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                    $('#saveBtn').html('Beli');
                 }
             });
         });
