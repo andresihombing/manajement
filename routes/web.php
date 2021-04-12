@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MainController;
 
 
 
@@ -20,6 +21,12 @@ use App\Http\Controllers\ProductController;
 //     return view('welcome');
 // });
 
-Route::resource('product', ProductController::class);
+Route::group(['middleware'=>'auth'], function(){
+    Route::get('/keluar', [MainController::class, 'logout']);
+    Route::resource('product', ProductController::class);
+    Route::get('/dash',[ProductController::class, 'index']);
+});
+Auth::routes();
+// Route::get('/dash', [ProductController::class,'index']);
 
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
