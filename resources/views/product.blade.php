@@ -49,13 +49,13 @@
                         <div class="col-sm-6">
                             <label for="name" class="col-sm-12 control-label">Harga Modal</label>
                             <div class="col-sm-12">
-                                <input type="number" min="0" class="form-control" id="capital_price" name="capital_price" placeholder="masukkan modal" value="" maxlength="50" required="">
+                                <input type="text" min="0" class="form-control" id="capital_price" name="capital_price" placeholder="masukkan modal" value="" maxlength="50" required="" onkeypress="return event.charCode >= 48 && event.charCode <=57">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <label for="name" class="col-sm-12 control-label">Harga Jual</label>
                             <div class="col-sm-12">
-                                <input type="number" min="0" class="form-control" id="selling_price" name="selling_price" placeholder="masukkan harga jual" value="" maxlength="50" required="">
+                                <input type="text" min="0" class="form-control" id="selling_price" name="selling_price" placeholder="masukkan harga jual" value="" maxlength="50" required="" onkeypress="return event.charCode >= 48 && event.charCode <=57">
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                         <div class="form-group col-md-4">                            
                             <label for="name" class="col-sm-2 control-label">Stok</label>
                             <div class="col-sm-12">
-                                <input type="number" min="0" class="form-control" id="stok" name="stok" placeholder="stok" value="" maxlength="50" required="">
+                                <input type="number" min="0" class="form-control" id="stok" name="stok" placeholder="stok" value="" maxlength="50" required="" onkeypress="return event.charCode >= 48 && event.charCode <=57">
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,14 @@
                         <td>
                             <b id="modelHeadingMerk"></b>
                         </td>
-                    </tr>    
+                    </tr>       
+                    <tr>
+                        <td>Stok </td>
+                        <td> : </td>
+                        <td>
+                            <b id="modelHeadingStok"></b>
+                        </td>
+                    </tr>   
                     </table>                  
                 </div>
             </div>
@@ -152,12 +159,12 @@
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <div class="col-sm-12">
-                                <input type="hidden" class="form-control" id="capital_price_beli" name="capital_price" placeholder="masukkan modal" value="" maxlength="50" required="">
+                                <input type="hidden" class="form-control" id="capital_price_beli" name="capital_price" placeholder="masukkan modal" value="" maxlength="50" required="" onkeypress="return event.charCode >= 48 && event.charCode <=57">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="col-sm-12">
-                                <input type="hidden" class="form-control" id="selling_price_beli" name="selling_price" placeholder="masukkan harga jual" value="" maxlength="50" required="">
+                                <input type="hidden" class="form-control" id="selling_price_beli" name="selling_price" placeholder="masukkan harga jual" value="" maxlength="50" required="" onkeypress="return event.charCode >= 48 && event.charCode <=57">
                             </div>
                         </div>
                     </div>
@@ -169,7 +176,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="col-sm-12">
-                                <input type="hidden" class="form-control" id="stok_beli" name="stok" placeholder="stok" value="" maxlength="50" required="">
+                                <input type="hidden" class="form-control" id="stok_beli" name="stok" placeholder="stok" value="" maxlength="50" required="" onkeypress="return event.charCode >= 48 && event.charCode <=57">
                             </div>
                         </div>
                     </div>
@@ -290,8 +297,9 @@
             var product_id = $(this).data('id');
             $.get("{{ route('product.index') }}" + '/' + product_id + '/edit', function(data) {
                 $('#modelHeadingMerk').html(data.merk);
-                $('#modelHeadingPrice').html(`Rp.${data.selling_price}`);
+                $('#modelHeadingPrice').html(data.selling_price);
                 $('#modelHeadingBeli').html(data.name);
+                $('#modelHeadingStok').html(data.stok);
                 $('#saveBtn').val("beli-product");
                 $('#ajaxModelBeli').modal('show');                
                 $('#product_id_beli').val(data.id);
@@ -369,4 +377,37 @@
 
     });
 </script>
+<script type="text/javascript">
+		var capitalPrice = document.getElementById('capital_price');
+		capitalPrice.addEventListener('keyup', function(e){
+			// tambahkan 'Rp.' pada saat form di ketik
+			// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+			capitalPrice.value = formatRupiah(this.value,'Rp.');
+		});
+
+        var sellingPrice = document.getElementById('selling_price');
+        sellingPrice.addEventListener('keyup', function(e){
+            // tambahkan 'Rp.' pada saat form di ketik
+            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            sellingPrice.value = formatRupiah(this.value,'Rp.');
+        });
+
+		/* Fungsi formatRupiah */
+		function formatRupiah(angka, prefix){
+			var number_string = angka.replace(/[^,\d]/g, '').toString(),
+			split   		= number_string.split(','),
+			sisa     		= split[0].length % 3,
+			rupiah     		= split[0].substr(0, sisa),
+			ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+ 
+			// tambahkan titik jika yang di input sudah menjadi angka ribuan
+			if(ribuan){
+				separator = sisa ? '.' : '';
+				rupiah += separator + ribuan.join('.');
+			}
+ 
+			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+			return prefix == undefined ? rupiah : (rupiah ? 'Rp.' +rupiah : '');
+		}   
+	</script>
 @endsection
